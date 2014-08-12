@@ -1,0 +1,18 @@
+RUNTIME DEPENDENCIES:
+
+	libc
+
+
+BUILD DEPENDENCIES:
+
+	make
+	c99
+	libc
+	coreutils
+
+
+INSTALL DEPENDENCIES:
+
+	make
+	coreutils
+
