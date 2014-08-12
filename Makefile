@@ -55,6 +55,22 @@ obj/%.o: src/%.c
 	$(CC) $(WARN) -std=$(STD) $(OPTIMISE) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
 
 
+.PHONY: install
+install: bin/alarm
+	install -dm755 -- "$(DESTDIR)$(BINDIR)"
+	install -m755 bin/alarm -- "$(DESTDIR)$(BINDIR)/$(COMMAND)"
+	install -dm755 -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)"
+	install -m644 COPYING LICENSE -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)"
+
+
+.PHONY: uninstall
+uninstall:
+	-rm -- "$(DESTDIR)$(BINDIR)/$(COMMAND)"
+	-rm -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)/COPYING"
+	-rm -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)/LICENSE"
+	-rmdir -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)"
+
+
 .PHONY: clean
 clean:
 	-rm -r bin obj
