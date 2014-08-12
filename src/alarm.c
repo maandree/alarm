@@ -86,7 +86,7 @@ int main(int argc, char** argv)
   printf("    <MINUTES>m[<SECONDS>s]\n");
   printf("    <HOURS>h[<MINUTES>m][<SECONDS>s]\n");
   printf("\n");
-  printf("    All values are non-negative integers, and");
+  printf("    All values are non-negative integers, and\n");
   printf("    the interal must be greater than zero and\n");
   printf("    at most 18h12m15s.\n");
   printf("\n");
