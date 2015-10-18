@@ -10,6 +10,6 @@ Recognised patterns for <TIME>:
     <HOURS>h[<MINUTES>m][<SECONDS>s]
 
     All values are non-negative integers, and
-    the interal must be greater than zero and
+    the interval must be greater than zero and
     at most 18h12m15s.
 
