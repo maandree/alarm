@@ -1,15 +1,27 @@
-Schedule an alarm for a program when starting it.
+NAME
+	alarm - Schedule an alarm for a program when starting it
 
+SYNOPSIS
+	alarm DURATION COMMAND [ARGS...]
 
-USAGE: alarm <TIME> <COMMAND> <ARGS...>
+DESCRIPTION
+	Schedules an alarm(3) to best triggered after a specified
+	DURATION. The process than execvp(3) into COMMAND ARGS.
 
-Recognised patterns for <TIME>:
+	This means that COMMAND will be killed by SIGALRM after
+	a selected DURATION.
 
-    <SECONDS>[s]
-    <MINUTES>m[<SECONDS>s]
-    <HOURS>h[<MINUTES>m][<SECONDS>s]
+	DURATION must be a non-negative integer, no larger
+	than 18h12m15s. Recognised patterns for DURATION are:
+	*	SECONDS[s]
+	*	MINUTESm[SECONDSs]
+	*	HOURSh[MINUTESm][SECONDSs]
 
-    All values are non-negative integers, and
-    the interval must be greater than zero and
-    at most 18h12m15s.
+RATIONALE
+	This program is useful when testing programs for a limited
+	duration. Especially when running in the background, or
+	there is a chance of it locking the computer.
+
+SEE ALSO
+	alarm(3)
 
