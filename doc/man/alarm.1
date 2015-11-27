@@ -1,0 +1,59 @@
+.TH ALARM 1 ALARM
+.SH NAME
+alarm - Schedule an alarm for a program when starting it
+.SH SYNOPSIS
+.BR alarm
+.IR DURATION
+.IR COMMAND
+.RI [ ARGS ...]
+.SH DESCRIPTION
+Schedules an
+.BR alarm (3)
+to best triggered after a specified
+.IR DURATION .
+The process than
+.BR execvp (3)
+into
+.IR COMMAND\ ARGS .
+.PP
+This means that
+.IR COMMAND
+will be killed by
+.BR SIGALRM
+after a selected
+.IR DURATION .
+.PP
+.IR DURATION
+must be a non-negative integer, no larger than 18h12m15s.
+Recognised patterns for
+.IR DURATION
+are:
+.TP
+*
+.IR SECONDS [s]
+.TP
+*
+.IR MINUTES m[ SECONDS s]
+.TP
+*
+.IR HOURS h[ MINUTES m][ SECONDS s]
+.SH RATIONALE
+This program is useful when testing programs for a limited
+duration. Especially when running in the background, or
+there is a chance of it locking the computer.
+.SH "SEE ALSO"
+.BR alarm (3)
+.SH AUTHORS
+Principal author, Mattias Andrée.  See the COPYING file for the full
+list of authors.
+.SH LICENSE
+Copyright \(co 2014, 2015  Mattias Andrée
+.br
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+.br
+This is free software: you are free to change and redistribute it.
+.br
+There is NO WARRANTY, to the extent permitted by law.
+.SH BUGS
+Please report bugs to https://github.com/maandree/alarm/issues or to
+maandree@member.fsf.org

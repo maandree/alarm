@@ -14,6 +14,14 @@ DATA = /share
 BINDIR = $(PREFIX)$(BIN)
 # The resource path including prefix.
 DATADIR = $(PREFIX)$(DATA)
+# The general documentation path including prefix.
+DOCDIR = $(DATADIR)/doc
+# The info manual path including prefix.
+INFODIR = $(DATADIR)/info
+# The man page path including prefix.
+MANDIR = $(DATADIR)/man
+# The man page section 1 path including prefix.
+MAN1DIR = $(MANDIR)/man1
 # The license base path including prefix.
 LICENSEDIR = $(DATADIR)/licenses
 
@@ -43,8 +51,18 @@ WARN = -Wall -Wextra -pedantic -Wdouble-promotion -Wformat=2 -Winit-self       \
 STD = c99
 
 
+
+.PHONY: default
+default: command
+
 .PHONY: all
-all: bin/alarm
+all: command
+
+.PHONY: base
+base: command
+
+.PHONY: command
+command: bin/alarm
 
 bin/alarm: obj/alarm.o
 	@mkdir -p bin
@@ -55,12 +73,33 @@ obj/%.o: src/%.c
 	$(CC) $(WARN) -std=$(STD) $(OPTIMISE) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
 
 
+
 .PHONY: install
-install: bin/alarm
+install: install-base install-man
+
+.PHONY: install-all
+install-all: install-base install-doc
+
+.PHONY: install-base
+install-base: install-command install-license
+
+.PHONY: install-command
+install-command: bin/alarm
 	install -dm755 -- "$(DESTDIR)$(BINDIR)"
-	install -m755 bin/alarm -- "$(DESTDIR)$(BINDIR)/$(COMMAND)"
+	install -m755 $^ -- "$(DESTDIR)$(BINDIR)/$(COMMAND)"
+
+.PHONY: install-license
+install-license:
 	install -dm755 -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)"
 	install -m644 COPYING LICENSE -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)"
+
+.PHONY: install-doc
+install-doc: install-man
+
+install-man: doc/man/alarm.1
+	install -dm755 -- "$(DESTDIR)$(MAN1DIR)"
+	install -m644 $< -- "$(DESTDIR)$(MAN1DIR)/$(COMMAND).1"
+
 
 
 .PHONY: uninstall
@@ -69,6 +108,8 @@ uninstall:
 	-rm -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)/COPYING"
 	-rm -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)/LICENSE"
 	-rmdir -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)"
+	-rm -- "$(DESTDIR)$(MAN1)/$(COMMAND).1"
+
 
 
 .PHONY: clean
