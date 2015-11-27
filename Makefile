@@ -53,10 +53,10 @@ STD = c99
 
 
 .PHONY: default
-default: command
+default: command info
 
 .PHONY: all
-all: command
+all: command doc
 
 .PHONY: base
 base: command
@@ -71,6 +71,40 @@ bin/alarm: obj/alarm.o
 obj/%.o: src/%.c
 	@mkdir -p obj
 	$(CC) $(WARN) -std=$(STD) $(OPTIMISE) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
+
+.PHONY: doc
+doc: info pdf dvi ps
+
+.PHONY: info
+info: bin/alarm.info
+bin/%.info: doc/info/%.texinfo
+	@mkdir -p bin
+	$(MAKEINFO) $<
+	mv $*.info $@
+
+.PHONY: pdf
+pdf: bin/alarm.pdf
+bin/%.pdf: doc/info/%.texinfo
+	@! test -d obj/pdf || rm -rf obj/pdf
+	@mkdir -p bin obj/pdf
+	cd obj/pdf && texi2pdf ../../"$<" < /dev/null
+	mv obj/pdf/$*.pdf $@
+
+.PHONY: dvi
+dvi: bin/alarm.dvi
+bin/%.dvi: doc/info/%.texinfo
+	@! test -d obj/dvi || rm -rf obj/dvi
+	@mkdir -p bin obj/dvi
+	cd obj/dvi && $(TEXI2DVI) ../../"$<" < /dev/null
+	mv obj/dvi/$*.dvi $@
+
+.PHONY: ps
+ps: bin/alarm.ps
+bin/%.ps: doc/info/%.texinfo
+	@! test -d obj/ps || rm -rf obj/ps
+	@mkdir -p bin obj/ps
+	cd obj/ps && texi2pdf --ps ../../"$<" < /dev/null
+	mv obj/ps/$*.ps $@
 
 
 
@@ -94,7 +128,27 @@ install-license:
 	install -m644 COPYING LICENSE -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)"
 
 .PHONY: install-doc
-install-doc: install-man
+install-doc: install-info install-pdf install-dvi install-ps install-man
+
+.PHONY: install-info
+install-info: bin/alarm.info
+	install -dm755 -- "$(DESTDIR)$(INFODIR)"
+	install -m644 $< -- "$(DESTDIR)$(INFODIR)/$(PKGNAME).info"
+
+.PHONY: install-pdf
+install-pdf: bin/alarm.pdf
+	install -dm755 -- "$(DESTDIR)$(DOCDIR)"
+	install -m644 -- "$<" "$(DESTDIR)$(DOCDIR)/$(PKGNAME).pdf"
+
+.PHONY: install-dvi
+install-dvi: bin/alarm.dvi
+	install -dm755 -- "$(DESTDIR)$(DOCDIR)"
+	install -m644 -- "$<" "$(DESTDIR)$(DOCDIR)/$(PKGNAME).dvi"
+
+.PHONY: install-ps
+install-ps: bin/alarm.ps
+	install -dm755 -- "$(DESTDIR)$(DOCDIR)"
+	install -m644 -- "$<" "$(DESTDIR)$(DOCDIR)/$(PKGNAME).ps"
 
 install-man: doc/man/alarm.1
 	install -dm755 -- "$(DESTDIR)$(MAN1DIR)"
@@ -109,6 +163,10 @@ uninstall:
 	-rm -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)/LICENSE"
 	-rmdir -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)"
 	-rm -- "$(DESTDIR)$(MAN1)/$(COMMAND).1"
+	-rm -- "$(DESTDIR)$(INFODIR)/$(PKGNAME).info"
+	-rm -- "$(DESTDIR)$(DOCDIR)/$(PKGNAME).pdf"
+	-rm -- "$(DESTDIR)$(DOCDIR)/$(PKGNAME).dvi"
+	-rm -- "$(DESTDIR)$(DOCDIR)/$(PKGNAME).ps"
 
 
 

@@ -1,0 +1,100 @@
+\input texinfo   @c -*-texinfo-*-
+
+@c %**start of header
+@setfilename alarm.info
+@settitle alarm
+@afourpaper
+@documentencoding UTF-8
+@documentlanguage en
+@finalout
+@c %**end of header
+
+
+@dircategory General Commands
+@direntry
+* alarm: (alarm).                    Schedule an alarm for a program when starting it
+@end direntry
+
+
+@copying
+Copyright @copyright{} 2015 Mattias Andrée
+
+@quotation
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts. A copy of the license is included in the section entitled
+``GNU Free Documentation License''.
+@end quotation
+@end copying
+
+@ifnottex
+@node Top
+@top alarm -- Schedule an alarm for a program when starting it
+@insertcopying
+@end ifnottex
+
+@titlepage
+@title alarm
+@subtitle Schedule an alarm for a program when starting it
+@author by Mattias Andrée (maandree)
+
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+@page
+@end titlepage
+
+@contents
+
+
+
+@menu
+* Overview::                        Brief overview of @command{alarm}.
+* Invoking::                        Executing @command{alarm}.
+* GNU Free Documentation License::  Copying and sharing this manual.
+@end menu
+
+
+
+@node Overview
+@chapter Overview
+
+Schedules an alarm to best triggered after a specified
+duration. The process than exec:s into another command.
+
+This means that the selected program will start as
+normal but then be killed by @code{SIGALRM} after a
+selected duration.
+
+This program is useful when testing programs for a limited
+duration. Especially when running in the background, or
+there is a chance of it locking the computer.
+
+
+
+@node Invoking
+@chapter Invoking
+
+The first argument shall be the duration before @code{SIGALRM}
+is sent. The following arguments is the command just as
+if you were not using this command.
+
+The duration must be a non-negative integer, no larger
+than 18h12m15s. Recognised patterns are:
+
+@itemize @bullet
+@item @code{SECONDS[s]}
+@item @code{MINUTESm[SECONDSs]}
+@item @code{HOURSh[MINUTESm][SECONDSs]}
+@end itemize
+
+
+
+@node GNU Free Documentation License
+@appendix GNU Free Documentation License
+@include fdl.texinfo
+
+@bye
+
