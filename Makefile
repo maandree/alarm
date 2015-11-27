@@ -109,7 +109,7 @@ bin/%.ps: doc/info/%.texinfo
 
 
 .PHONY: install
-install: install-base install-man
+install: install-base install-man install-info
 
 .PHONY: install-all
 install-all: install-base install-doc
