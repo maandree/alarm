@@ -5,22 +5,22 @@
 
 
 # The package path prefix, if you want to install to another root, set DESTDIR to that root.
-PREFIX ?= /usr
+PREFIX = /usr
 # The command path excluding prefix.
-BIN ?= /bin
+BIN = /bin
 # The resource path excluding prefix.
-DATA ?= /share
+DATA = /share
 # The command path including prefix.
-BINDIR ?= $(PREFIX)$(BIN)
+BINDIR = $(PREFIX)$(BIN)
 # The resource path including prefix.
-DATADIR ?= $(PREFIX)$(DATA)
+DATADIR = $(PREFIX)$(DATA)
 # The license base path including prefix.
-LICENSEDIR ?= $(DATADIR)/licenses
+LICENSEDIR = $(DATADIR)/licenses
 
 # The name of the package as it should be installed.
-PKGNAME ?= alarm
+PKGNAME = alarm
 # The name of the command as it should be installed.
-COMMAND ?= alarm
+COMMAND = alarm
 
 
 # Optimisation level (and debug flags.)
