@@ -1,9 +1,0 @@
-*
-!/.git*
-!/PKGBUILD
-!/alarm.install
-*~
-*.swo
-*.swp
-*.bak
-
