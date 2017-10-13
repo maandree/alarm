@@ -12,9 +12,9 @@ alarm: alarm.o
 	$(CC) -o $@ alarm.o $(LDFLAGS)
 
 check: alarm
-	alarm 1 sleep 2 & a=$$! ;\
-	alarm 1s sleep 2 & b=$$! ;\
-	alarm 0h2s sleep 1 & c=$$! ;\
+	./alarm 1 sleep 2 & a=$$! ;\
+	./alarm 1s sleep 2 & b=$$! ;\
+	./alarm 0h2s sleep 1 & c=$$! ;\
 	{ ! wait $$a; } && { ! wait $$b; } && { wait $$c; }
 
 install: alarm
