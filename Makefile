@@ -18,19 +18,18 @@ check: alarm
 	{ ! wait $$a; } && { ! wait $$b; } && { wait $$c; }
 
 install: alarm
-	install -dm755 -- "$(DESTDIR)$(BINDIR)"
-	install -m755 $^ -- "$(DESTDIR)$(BINDIR)/$(COMMAND)"
-	install -dm755 -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)"
-	install -m644 LICENSE -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)"
-	install -dm755 -- "$(DESTDIR)$(MAN1DIR)"
-	install -m644 $< -- "$(DESTDIR)$(MAN1DIR)/$(COMMAND).1"
+	mkdir -p -- "$(DESTDIR)$(PREFIX)/bin"
+	mkdir -p -- "$(DESTDIR)$(PREFIX)/share/licenses/alarm"
+	mkdir -p -- "$(DESTDIR)$(MANPREFIX)/man1"
+	cp -- alarm "$(DESTDIR)$(PREFIX)/bin/"
+	cp -- LICENSE "$(DESTDIR)$(PREFIX)/share/licenses/alarm/"
+	cp -- alarm.1 "$(DESTDIR)$(MANPREFIX)/man1/"
 
 uninstall:
-	-rm -- "$(DESTDIR)$(BINDIR)/$(COMMAND)"
-	-rm -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)/COPYING"
-	-rm -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)/LICENSE"
-	-rmdir -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)"
-	-rm -- "$(DESTDIR)$(MAN1DIR)/$(COMMAND).1"
+	-rm -- "$(DESTDIR)$(PREFIX)/bin/alarm"
+	-rm -- "$(DESTDIR)$(PREFIX)/share/licenses/alarm/LICENSE"
+	-rm -- "$(DESTDIR)$(MANPREFIX)/man1/alarm.1"
+	-rmdir -- "$(DESTDIR)$(PREFIX)/share/licenses/alarm"
 
 clean:
 	-rm -r -- alarm *.o
