@@ -32,6 +32,6 @@ uninstall:
 	-rmdir -- "$(DESTDIR)$(PREFIX)/share/licenses/alarm"
 
 clean:
-	-rm -r -- alarm *.o
+	-rm -rf -- alarm *.o
 
 .PHONY: all check install uninstall clean
