@@ -13,7 +13,7 @@ static void
 usage(void)
 {
 	fprintf(stderr, "usage: %s duration command [argument ...]\n", argv0);
-	exit(0);
+	exit(125);
 }
 
 int
@@ -25,6 +25,7 @@ main(int argc, char **argv)
 	long buf = 0;
 	int hms = 0;
 	char *time, c;
+	int ret;
 
 	argv0 = argv[0];
 	if (argc < 3)
@@ -56,6 +57,7 @@ main(int argc, char **argv)
 
 	alarm((unsigned)seconds);
 	execvp(argv[2], &argv[2]);
-	fprintf(stderr, "%s: execvp %s: %s\n", argv0, argv[2], strerror(ENOMEM));
-	return 1;
+	ret = errno == ENOENT ? 127 : 126;
+	fprintf(stderr, "%s: execvp %s: %s\n", argv0, argv[2], strerror(errno));
+	return ret;
 }
